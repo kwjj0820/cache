@@ -41,6 +41,7 @@ void Cache::moveToHead(Node* node)
 // int를 cache에 추가한다
 void Cache::add(std::string key, int value)
 {
+  std::cout << "add call\n";
   Node* cur = head;
   while(cur != NULL)
   {
@@ -52,6 +53,7 @@ void Cache::add(std::string key, int value)
     cur = cur->getNext();
   }
 
+  std::cout << "add check duplication\n";
   if(size == CACHE_SIZE)
   {
     Node* temp = rear;
@@ -59,6 +61,7 @@ void Cache::add(std::string key, int value)
     rear = rear->getPrev();
     delete temp;
     size--;
+    std::cout << "cache is full, " << "size: " << size << std::endl;
   }
 
   Node* newNode = new Node(key, value);
@@ -67,6 +70,7 @@ void Cache::add(std::string key, int value)
     head = newNode;
     rear = newNode;
     size++;
+    std::cout << "first input. " << "size: " << size << std::endl;
   }
   else
   {
@@ -74,12 +78,14 @@ void Cache::add(std::string key, int value)
     newNode->setNext(head);
     head = newNode;
     size++;
+    std::cout << "insert. " << "size: " << size << std::endl;
   }
 }
 
 // double을 cache에 추가한다
 void Cache::add(std::string key, double value)
 {
+  std::cout << "add call\n";
   Node* cur = head;
   while(cur != NULL)
   {
@@ -91,6 +97,7 @@ void Cache::add(std::string key, double value)
     cur = cur->getNext();
   }
 
+  std::cout << "add check duplication\n";
   if(size == CACHE_SIZE)
   {
     Node* temp = rear;
@@ -98,6 +105,7 @@ void Cache::add(std::string key, double value)
     rear = rear->getPrev();
     delete temp;
     size--;
+    std::cout << "cache is full, " << "size: " << size << std::endl;
   }
 
   Node* newNode = new Node(key, value);
@@ -106,6 +114,7 @@ void Cache::add(std::string key, double value)
     head = newNode;
     rear = newNode;
     size++;
+    std::cout << "first input. " << "size: " << size << std::endl;
   }
   else
   {
@@ -113,6 +122,7 @@ void Cache::add(std::string key, double value)
     newNode->setNext(head);
     head = newNode;
     size++;
+    std::cout << "insert. " << "size: " << size << std::endl;
   }
 }
 
@@ -158,6 +168,7 @@ std::string Cache::toString()
 {
   std::string result; 
   Node* cur = head;
+  std::cout << "size: " << size << std::endl;
   while(cur != NULL)
   {
     result += "[" + cur->getKey() + ": ";
