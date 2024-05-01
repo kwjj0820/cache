@@ -52,7 +52,7 @@ void Cache::add(std::string key, int value)
     cur = cur->getNext();
   }
 
-  if(size == 10)
+  if(size == CACHE_SIZE)
   {
     Node* temp = rear;
     rear->getPrev()->setNext(NULL);
@@ -62,11 +62,19 @@ void Cache::add(std::string key, int value)
   }
 
   Node* newNode = new Node(key, value);
-  newNode->setNext(head);
-  if(head != NULL) newNode->setPrev(NULL);
-  head = newNode;
-  if(rear == NULL) rear = head;
-  size++;
+  if(size == 0)
+  {
+    head = newNode;
+    rear = newNode;
+    size++;
+  }
+  else
+  {
+    head->setPrev(newNode);
+    newNode->setNext(head);
+    head = newNode;
+    size++;
+  }
 }
 
 // double을 cache에 추가한다
@@ -83,7 +91,7 @@ void Cache::add(std::string key, double value)
     cur = cur->getNext();
   }
 
-  if(size == 10)
+  if(size == CACHE_SIZE)
   {
     Node* temp = rear;
     rear->getPrev()->setNext(NULL);
@@ -93,21 +101,27 @@ void Cache::add(std::string key, double value)
   }
 
   Node* newNode = new Node(key, value);
-  newNode->setNext(head);
-  if(head != NULL) newNode->setPrev(NULL);
-  head = newNode;
-  if(rear == NULL) rear = head;
-  size++;
+  if(size == 0)
+  {
+    head = newNode;
+    rear = newNode;
+    size++;
+  }
+  else
+  {
+    head->setPrev(newNode);
+    newNode->setNext(head);
+    head = newNode;
+    size++;
+  }
 }
 
 // key에 해당하는 value를 cache에서 가져온다
 bool Cache::get(std::string key, int &value)
 {
   Node* cur = head;
-  Node* prev = head;
   while(cur != NULL)
   {
-    if(cur != head) prev = prev->getNext();
     if(cur->getKey() == key)
     {
       value = cur->getIntVal();
@@ -123,10 +137,8 @@ bool Cache::get(std::string key, int &value)
 bool Cache::get(std::string key, double &value)
 {
   Node* cur = head;
-  Node* prev = head;
   while(cur != NULL)
   {
-    if(cur != head) prev = prev->getNext();
     if(cur->getKey() == key)
     {
       value = cur->getDoubleVal();
@@ -144,7 +156,7 @@ bool Cache::get(std::string key, double &value)
 // [key1: value1] -> [key2: value2] -> ... -> [keyN: valueN]
 std::string Cache::toString()
 {
-  std::string result; // 문자열을 저장할 변수를 선언합니다.
+  std::string result; 
   Node* cur = head;
   while(cur != NULL)
   {

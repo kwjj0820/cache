@@ -21,8 +21,8 @@ private:
       std::string key;
 
       public:
-        Node(std::string key, int value): key(key), prev(NULL), next(NULL), intVal(value), isInt(true){};
-        Node(std::string key, double value): key(key), prev(NULL), next(NULL), doubleVal(value), isInt(false){};
+        Node(std::string key, int value): key(key), prev(NULL), next(NULL), intVal(value), isInt(true), doubleVal(0){};
+        Node(std::string key, double value): key(key), prev(NULL), next(NULL), doubleVal(value), isInt(false), intVal(0){};
         int getIntVal(){return intVal;}
         double getDoubleVal(){return doubleVal;}
         Node* getNext(){return next;}
