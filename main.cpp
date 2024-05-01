@@ -27,7 +27,6 @@ int main() {
 
   TaskSet taskSet("resources/task_set.txt");
   int index = 0;
-
   // 태스크를 계속 읽어 수행한다
   while (taskSet.getNext(task)) {
     print("[TASK #" + std::to_string(index++) + "]");
