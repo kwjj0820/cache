@@ -8,12 +8,13 @@
 class CachedRunner {
 private:
   // TODO: private 멤버 변수와 함수 추가 가능
-    int hitCount;
-    int missCount;
-    Cache cache_;
+  enum TaskType { MULTIPLY, PALINDROME };
+  int hitCount;
+  int missCount;
+  Cache *cache_;
     
-    bool isPalindrome(std::string str)
-    {
+  bool isPalindrome(std::string str)
+  {
     for (int i = 0; i < str.size() / 2; i++) {
       if (str[i] != str[str.size() - i - 1]) {
         return false;

@@ -2,7 +2,7 @@
 
 CachedRunner::CachedRunner(Cache &cache)
 {
-  cache_ = cache;
+  cache_ = &cache;
   hitCount = 0;
   missCount = 0;
 }
@@ -13,7 +13,7 @@ double CachedRunner::multiply(std::string filename)
   std::ifstream file(filename);
   double result = 1;
   double number;
-  if(cache_.get(filename, number))
+  if(cache_->get(filename, number))
   {
     hitCount++;
     return number;
@@ -22,7 +22,7 @@ double CachedRunner::multiply(std::string filename)
   {
     result *= number;
   }
-  cache_.add(filename, number);
+  cache_->add(filename, number);
   missCount++;
   return result;
 }
@@ -41,7 +41,7 @@ int CachedRunner::palindrome(std::string filename)
   int maxLength = 0;
   int maxIndex = 0;
   std::string maxPalindrome;
-  if(cache_.get(filename, maxIndex))
+  if(cache_->get(filename, maxIndex))
   {
     hitCount++;
     return maxIndex;
@@ -60,7 +60,7 @@ int CachedRunner::palindrome(std::string filename)
       }
     }
   }
-  cache_.add(filename, maxIndex);
+  cache_->add(filename, maxIndex);
   missCount++;
   return maxIndex;
 }
