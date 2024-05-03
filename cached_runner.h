@@ -8,7 +8,6 @@
 class CachedRunner {
 private:
   // TODO: private 멤버 변수와 함수 추가 가능
-  enum TaskType { MULTIPLY, PALINDROME };
   int hitCount;
   int missCount;
   Cache *cache_;

@@ -5,6 +5,7 @@
 #include <iostream>
 
 #define CACHE_SIZE 10
+#define HASH_SIZE 10
 
 class Cache {
 private:
@@ -31,14 +32,29 @@ private:
         void setPrev(Node* node){prev = node;}
         std::string getKey(){return key;}
         bool checkInt(){return isInt;}
-    // 값을 추가할 때, Cache에 존재하지 않으면 rear에 추가한다.
-    // Cache에 존재하면, 해당 Cache의 값을 rear로 옮긴다.
   };
 
   Node* head;
   Node* rear;
   int size;
   void moveToHead(Node* node);
+
+  class Hash
+  {
+    private:
+      Node* table[HASH_SIZE];
+
+    public:
+      Hash();
+      ~Hash();
+      int hash(std::string key);
+      void insert(std::string key, int value);
+      void insert(std::string key, double value);
+      bool get(std::string key, int& val);
+      bool get(std::string key, double& val);
+      void remove(Node* node);
+  };
+  Hash* hash_;
 
 public:
   Cache();
