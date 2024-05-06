@@ -22,16 +22,16 @@ Cache::~Cache()
 
 void Cache::moveToHead(Node* node)
 {
-  if (node == head) // 노드가 이미 맨 앞에 있는 경우
+  if (node == head) 
     return;
 
-  if (node == rear) // 노드가 맨 뒤에 있는 경우
+  if (node == rear)
   {
     rear = node->getPrev();
-    if (rear) // rear가 NULL이 아닌 경우에만
+    if (rear)
       rear->setNext(NULL);
   }
-  else // 노드가 중간에 있는 경우
+  else
   {
     Node* prevNode = node->getPrev();
     Node* nextNode = node->getNext();
@@ -42,12 +42,12 @@ void Cache::moveToHead(Node* node)
       nextNode->setPrev(prevNode);
   }
 
-  node->setNext(head); // 현재 head 앞에 노드를 추가
-  if (head) // head가 NULL이 아닌 경우에만
+  node->setNext(head);
+  if (head)
     head->setPrev(node);
 
-  head = node; // head를 현재 노드로 업데이트
-  node->setPrev(NULL); // 현재 노드의 prev를 NULL로 설정
+  head = node;
+  node->setPrev(NULL);
 }
 
 
@@ -56,13 +56,9 @@ void Cache::add(std::string key, int value)
 {
   Node* cur = head;
 
-  std::string newKey;
-  if(key[10] == 'm') newKey = "multyply(" + key + ")";
-  else newKey = "palindrome(" + key + ")";
-
   while(cur != NULL)
   {
-    if(cur->getKey() == newKey)
+    if(cur->getKey() == key)
     {
       moveToHead(cur);
       return;
@@ -80,8 +76,8 @@ void Cache::add(std::string key, int value)
     size--;
   }
 
-  Node* newNode = new Node(newKey, value);
-  hash_->insert(newKey, value);
+  Node* newNode = new Node(key, value);
+  hash_->insert(key, value);
   if(size == 0)
   {
     head = newNode;
@@ -101,13 +97,10 @@ void Cache::add(std::string key, int value)
 void Cache::add(std::string key, double value)
 {
   Node* cur = head;
-  std::string newKey;
-  if(key[10] == 'm') newKey = "multyply(" + key + ")";
-  else newKey = "palindrome(" + key + ")";
 
   while(cur != NULL)
   {
-    if(cur->getKey() == newKey)
+    if(cur->getKey() == key)
     {
       moveToHead(cur);
       return;
@@ -125,8 +118,8 @@ void Cache::add(std::string key, double value)
     size--;
   }
 
-  Node* newNode = new Node(newKey, value);
-  hash_->insert(newKey, value);
+  Node* newNode = new Node(key, value);
+  hash_->insert(key, value);
   if(size == 0)
   {
     head = newNode;
@@ -146,17 +139,14 @@ void Cache::add(std::string key, double value)
 bool Cache::get(std::string key, int &value)
 {
   Node* cur = head;
-  std::string newKey;
-  if(key[10] == 'm') newKey = "multyple(" + key + ")";
-  else newKey = "palindrome(" + key + ")";
 
-  if(hash_->get(newKey, value))
+  if(hash_->get(key, value))
   {
     Node* cur = head;
     {
       while(cur != NULL)
       {
-        if(cur->getKey() == newKey)
+        if(cur->getKey() == key)
         {
           value = cur->getDoubleVal();
           moveToHead(cur);
@@ -174,17 +164,14 @@ bool Cache::get(std::string key, int &value)
 bool Cache::get(std::string key, double &value)
 {
   Node* cur = head;
-  std::string newKey;
-  if(key[10] == 'm') newKey = "multyply(" + key + ")";
-  else newKey = "palindrome(" + key + ")";
 
-  if(hash_->get(newKey, value))
+  if(hash_->get(key, value))
   {
     Node* cur = head;
     {
       while(cur != NULL)
       {
-        if(cur->getKey() == newKey)
+        if(cur->getKey() == key)
         {
           value = cur->getDoubleVal();
           moveToHead(cur);
@@ -208,7 +195,16 @@ std::string Cache::toString()
   Node* cur = head;
   while(cur != NULL)
   {
-    result += "[" + cur->getKey() + ": ";
+    std::string task = cur->getKey();
+    if(task[10] == 'm')
+    {
+      task = "multiply(" + task + ')';
+    }
+    else
+    {
+      task = "palindrom(" + task + ')';
+    }
+    result += "[" + task + ": ";
     if(cur->checkInt())
     {
       result += std::to_string(cur->getIntVal());
@@ -270,7 +266,6 @@ void Cache::Hash::insert(std::string key, int value)
     cur = cur->getNext();
   }
 
-  // 중복 키가 없으면 새 노드 추가
   Node* newNode = new Node(key, value);
   newNode->setNext(table[idx]);
   if(table[idx] != NULL)
@@ -293,7 +288,6 @@ void Cache::Hash::insert(std::string key, double value)
     cur = cur->getNext();
   }
 
-  // 중복 키가 없으면 새 노드 추가
   Node* newNode = new Node(key, value);
   newNode->setNext(table[idx]);
   if(table[idx] != NULL)
